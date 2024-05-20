@@ -1,5 +1,5 @@
 import { Card, Grid } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import MiddlePart from "./MiddlePart";
 import HomeRight from "../../components/HomeRight/HomeRight";
@@ -11,10 +11,12 @@ import { useSelector } from "react-redux";
 import Authentication from "../Authentication/Authentication";
 import CreateReelsForm from "../Reels/CreateReelsForm";
 
+
 const HomePage = () => {
   const location = useLocation();
   console.log("location", location);
   const {auth}=useSelector(store=>store)
+
 
   return (
     <div>
@@ -27,7 +29,7 @@ const HomePage = () => {
         <Grid
           className="px-5 flex justify-center "
           item
-          lg={location.pathname === "/" ? 6 : 9}
+          lg={location.pathname === "/" ? 6 : 6}
           xs={12}
         >
           <Routes>
@@ -37,13 +39,14 @@ const HomePage = () => {
             <Route path="/profile/:id" element={<Profile />} />
           </Routes>
         </Grid>
-        {(location.pathname === "/" ) && (
+        {(location.pathname === "/" || location.pathname.startsWith("/profile") ) && (
           <Grid className="relative" item lg={3} >
             <div className="sticky top-0  w-full" >
               <HomeRight />
             </div>
           </Grid>
         )}
+       
       </Grid>
       <CreatePostModal/>
     </div>

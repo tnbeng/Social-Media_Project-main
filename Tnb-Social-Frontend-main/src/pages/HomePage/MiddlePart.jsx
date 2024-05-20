@@ -53,7 +53,7 @@ const MiddlePart = () => {
             type="text"
           />
         </div>
-        <div className="flex justify-center space-x-9 mt-5">
+        <div className="flex justify-center space-x-9 mt-5" >
           <div className="flex items-center">
             <IconButton color="primary" onClick={handleOpenCreatePostModal}>
               <ImageIcon />
@@ -62,14 +62,14 @@ const MiddlePart = () => {
             <span>media</span>
           </div>
           <div className="flex  items-center">
-            <IconButton color="primary">
+            <IconButton color="primary" onClick={handleOpenCreatePostModal}>
               <VideocamIcon />
             </IconButton>
 
             <span>video</span>
           </div>
           <div className="flex  items-center">
-            <IconButton color="primary">
+            <IconButton color="primary" onClick={handleOpenCreatePostModal}>
               <ArticleIcon />
             </IconButton>
 

@@ -45,8 +45,8 @@ export default function PostCard({ item }) {
         className=""
         avatar={
           <Avatar sx={{ bgcolor: "#212534", color: "rgb(88,199,250)" }} aria-label="recipe" >
-            {(item?.user?.image )? (<img src={item?.user?.image} alt="" className="w-full h-full object-cover" /> ): (item?.user?.firstName[0] ) }
-            </Avatar>
+            {(item?.user?.image) ? (<img src={item?.user?.image} alt="" className="w-full h-full object-cover" />) : (item?.user?.firstName[0])}
+          </Avatar>
 
         }
         action={
@@ -62,17 +62,7 @@ export default function PostCard({ item }) {
           item?.user?.lastName.toLowerCase()
         }
       />
-      {item.image ? <CardMedia
-        component="img"
-        sx={{
-          width: '100%',      // Make the video responsive to the container width
-          height: 'auto',     // Automatically adjust height to maintain aspect ratio
-          maxHeight: '80vh',  // Limit the height to 80% of the viewport height
-          objectFit: 'contain' // Ensure the video fits within the container without cropping
-        }}
-        image={item?.image}
-        alt={item.caption}
-      /> :
+      {item.video?
         <CardMedia
           component="video"
           sx={{
@@ -84,6 +74,17 @@ export default function PostCard({ item }) {
           image={item?.video}
           alt={item.caption}
           controls
+        /> :
+        <CardMedia
+          component="img"
+          sx={{
+            width: '100%',      // Make the video responsive to the container width
+            height: 'auto',     // Automatically adjust height to maintain aspect ratio
+            maxHeight: '80vh',  // Limit the height to 80% of the viewport height
+            objectFit: 'contain' // Ensure the video fits within the container without cropping
+          }}
+          image={item?.image}
+          alt={item.caption}
         />
       }
       <CardContent>

@@ -1,6 +1,7 @@
 package com.tnb.service;
 
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -98,10 +99,9 @@ public class UserServiceImplementation implements UserService {
 
 
 	@Override
-	public String followUser(Integer reqUserId, Integer followUserId) throws UserException {
+	public User followUser(Integer reqUserId, Integer followUserId) throws UserException {
 		User followUser=findUserById(followUserId);
 		User reqUser=findUserById(reqUserId);
-		
 //		UserDto follower=new UserDto();
 //		follower.setEmail(reqUser.getEmail());
 //		follower.setUsername(reqUser.getUsername());
@@ -117,19 +117,20 @@ public class UserServiceImplementation implements UserService {
 //		following.setName(followUser.getName());
 //		following.setUserImage(followUser.getImage());
 		
-		if(followUser.getFollower().contains(reqUser)) {
-			followUser.getFollower().remove(reqUser);
-			reqUser.getFollowing().remove(followUser);
+		if(followUser.getFollowers().contains(reqUserId)) {
+			followUser.getFollowers().remove(Integer.valueOf(reqUserId));
+			reqUser.getFollowings().remove(Integer.valueOf(followUserId));
 		}
 		else {
-			followUser.getFollower().add(reqUser);
-		    reqUser.getFollowing().add(followUser);
+			followUser.getFollowers().add(reqUserId);
+		    reqUser.getFollowings().add(followUserId);
 		}
 		
 		userRepository.save(followUser);
-		userRepository.save(reqUser);
-		
-		return "success";
+		User updatedUser=userRepository.save(reqUser);
+	
+		//return "success";
+		return updatedUser;
 	}
 
 

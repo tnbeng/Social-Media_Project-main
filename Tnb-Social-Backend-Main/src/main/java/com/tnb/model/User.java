@@ -50,13 +50,16 @@ public class User {
 	private String gender;
 	private String image;
 	
-	@JsonIgnore
-	@ManyToMany
-	private Set<User> follower = new HashSet<>();
+//	@JsonIgnore
+//	@ManyToMany
+//	private Set<User> follower = new HashSet<>();
+//	
+//	@JsonIgnore
+//	@ManyToMany(mappedBy = "follower",fetch = FetchType.LAZY)
+//	private Set<User> following = new HashSet<User>();
 	
-	@JsonIgnore
-	@ManyToMany(mappedBy = "follower",fetch = FetchType.LAZY)
-	private Set<User> following = new HashSet<User>();
+	private List<Integer> followers=new ArrayList<>();
+	private List<Integer> followings=new ArrayList<>();
 
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

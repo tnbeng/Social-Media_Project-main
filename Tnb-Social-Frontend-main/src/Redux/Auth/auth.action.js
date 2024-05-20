@@ -75,11 +75,12 @@ export const loginUser = (loginData) => async (dispatch) => {
 export const registerUser = (userData) => async (dispatch) => {
   dispatch({type:REGISTER_REQUEST});
   try {
-    const response = await axios.post(`${API_BASE_URL}/auth/signup`, userData);
+    const response = await axios.post(`${API_BASE_URL}/auth/signup`, userData.data);
     const user = response.data;
     console.log("created user - : ", user);
     if (user.jwt) {
       localStorage.setItem("jwt", user.jwt);
+      userData.navigate("/")
     }
     dispatch({type:REGISTER_SUCCESS,payload:user});
   } catch (error) {
@@ -157,13 +158,12 @@ export const updateUserProfile = (reqData) => async (dispatch) => {
 export const FollowUserAction = (userId) => async (dispatch) => {
   dispatch({type:FOLLOW_USER_REQUEST})
   try {
-    const response = await api.put(`/api/users/${userId}/follow`);
+    const response = await api.put(`/api/users/follow/${userId}`);
     const user = response.data;
     console.log("follow user -: ", user);
-   
     dispatch({type:FOLLOW_USER_SUCCESS,payload:user});
   } catch (error) {
-    console.log("catch error ",error)
+    console.log("Follow user action error ",error)
     dispatch({type:FOLLOW_USER_FAILURE,payload:error.message});
   }
 };
@@ -198,8 +198,22 @@ export const resetPassword = (reqData) => async (dispatch) => {
   }
 };
 
-export const logout = (navigate) => (dispatch) => {
+export const logout = (navigate) =>(dispatch) => {
   // navigate("/")
   localStorage.removeItem("jwt");
   dispatch({ type: LOGOUT, payload: null });
 };
+
+export const getAllUser=()=>async (dispatch)=>{
+  try {
+    const response = await api.get('/api/users/all');
+    const users = response.data;
+    console.log("All users ------------------: ", users);
+   
+    dispatch({type:"GET_All_USERS_SUCCESS",payload:users});
+  } catch (error) {
+    console.log("error",error)
+   
+  }
+}
+

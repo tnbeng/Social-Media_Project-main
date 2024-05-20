@@ -43,6 +43,8 @@ public class PostController {
 		
 		User user=userService.findUserProfileByJwt(token);
 		
+		System.out.println("========================  "+user.getFirstName());
+		
 		Post createdPost = postService.createPost(post, user.getId());
 		
 		PostDto postDto = PostDtoMapper.toPostDto(createdPost,user);

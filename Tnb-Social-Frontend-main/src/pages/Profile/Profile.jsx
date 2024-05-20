@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import PostCard from "../../components/Users Post/PostCard";
 import ProfileModel from "./ProfileModel";
 import { useDispatch, useSelector } from "react-redux";
-import { findUserById } from "../../Redux/Auth/auth.action";
+import { FollowUserAction, findUserById } from "../../Redux/Auth/auth.action";
 import { useParams } from "react-router-dom";
 import { getUsersPost } from "../../Redux/Post/post.action";
 import UsersReelCard from "../Reels/UsersReelCard";
@@ -18,12 +18,13 @@ const tabs = [
 ];
 
 const Profile = () => {
-  const handleFollowUser = () => console.log("handle follow user");
+
   const [value, setValue] = React.useState("post");
   const [openModel, setOpenModal] = useState(false);
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { auth , post,reel} = useSelector((store) => store);
+
+  const { auth, post, reel } = useSelector((store) => store);
 
   const handleCloseProfileModal = () => setOpenModal(false);
   const handleOpenProfileModal = () => setOpenModal(true);
@@ -31,11 +32,14 @@ const Profile = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const handleFollowUser = () => {
+    dispatch(FollowUserAction(id));
+  }
   useEffect(() => {
     dispatch(findUserById(id));
     dispatch(getUsersPost(id))
     dispatch(getUsersReels(id))
-  }, [id]);
+  }, [id,auth.user]);
   return (
     <div className="py-10  w-[70%] ">
       <div className="rounded-md  bg-[#191c29]">
@@ -51,10 +55,10 @@ const Profile = () => {
             alt="Avatar"
             src={auth.findUser?.image}
             className="transform -translate-y-24 "
-            sx={{ width: "10rem", height: "10rem", bgcolor:"#212534",color:"rgb(88,199,250)" }}
+            sx={{ width: "10rem", height: "10rem", bgcolor: "#212534", color: "rgb(88,199,250)" }}
             color="primary"
           />
-          {auth.user?.id===auth.findUser?.id ? (
+          {auth.user?.id === auth.findUser?.id ? (
             <Button
               onClick={handleOpenProfileModal}
               sx={{ borderRadius: "20px" }}
@@ -70,13 +74,13 @@ const Profile = () => {
               variant="outlined"
               className="rounded-full"
             >
-              {true ? "Unfollow" : "Follow"}
+              {auth.user.followings.includes(parseInt(id)) ? "Unfollow" : "follow"}
             </Button>
           )}
         </div>
         <div className="p-5">
           <div>
-            <h1 className="py-1 font-bold text-xl">{auth.findUser?.firstName+" "+auth.findUser?.lastName}</h1>
+            <h1 className="py-1 font-bold text-xl">{auth.findUser?.firstName + " " + auth.findUser?.lastName}</h1>
             <p>
               @
               {auth.findUser?.firstName?.toLowerCase() +
@@ -84,14 +88,28 @@ const Profile = () => {
                 auth.findUser?.lastName?.toLowerCase()}
             </p>
           </div>
-          <div className="flex space-x-5 items-center py-3">
-            <span>41 posts</span>
-            <span>71 followers</span>
-            <span>22 following</span>
-          </div>
-          <div className="">
-            <p>{auth.findUser?.bio} </p>
-          </div>
+
+          {(auth.user?.id === auth.findUser?.id) ?
+            (<div className="flex space-x-5 items-center py-3">
+              <span>{post.posts.map((item)=>item.user?.id==auth.user?.id).length} posts</span>
+              <span>{auth.user?.followers?.length} followers</span>
+              <span>{auth.user?.followings?.length} following</span>
+            </div>) :
+            (<div className="flex space-x-5 items-center py-3">
+              <span>{post.posts.map((item)=>item.user.id==auth.findUser?.id).length} posts</span>
+              <span>{auth.findUser?.followers?.length} followers</span>
+              <span>{auth.findUser?.followings?.length} following</span>
+            </div>)
+          }
+          {(auth.user?.id === auth.findUser?.id) ?
+            <div className="">
+              <p>{auth.user?.bio} </p>
+            </div> :
+            <div className="">
+              <p>{auth.findUser?.bio} </p>
+            </div>
+          }
+
         </div>
         <section>
           <Box sx={{ width: "100%", borderBottom: 1, borderColor: "divider" }}>
@@ -110,7 +128,7 @@ const Profile = () => {
               <div className="space-y-5 w-[70%] my-10">
                 {post.posts.map((item) => (
                   <div className="border border-[#3b4054] rounded-md">
-                    <PostCard item={item}/>{" "}
+                    <PostCard item={item} />{" "}
                   </div>
                 ))}
               </div>
@@ -118,13 +136,13 @@ const Profile = () => {
               <div>Repost</div>
             ) : value === "reels" ? (
               <div className="flex flex-wrap py-5">
-                
-                 {reel.reels.map((reel) => (
+
+                {reel.reels.map((reel) => (
                   <UsersReelCard reel={reel} />
                 ))}
               </div>
             ) : (
-              <div>{auth.findUser?.savedPosts.map((item)=><PostCard item={item}/>)}</div>
+              <div>{auth.findUser?.savedPosts.map((item) => <PostCard item={item} />)}</div>
             )}
           </div>
         </section>

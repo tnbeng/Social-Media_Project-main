@@ -33,9 +33,12 @@ const initialState = {
   jwt: null,
   updateUser: false,
   searchResult: [],
+  AllUsers:[],
   findUser: null,
   resetPasswordLink: null,
   reqUser: null,
+  followings:[],
+  followers:[],
 };
 
 const authReducer = (state = initialState, action) => {
@@ -91,12 +94,22 @@ const authReducer = (state = initialState, action) => {
         searchResult: action.payload,
         error: null,
       };
+    case "GET_All_USERS_SUCCESS":
+      return {
+        ...state,
+        loading:false,
+        error:null,
+        AllUsers:action.payload
+      }
 
     case FOLLOW_USER_SUCCESS:
       return {
         ...state,
         loading: false,
-        findUser: action.payload,
+        //findUser: action.payload,
+        // followings:action.payload.followings,
+        // followers:action.payload.followers,
+        user:action.payload,
         error: null,
       };
 

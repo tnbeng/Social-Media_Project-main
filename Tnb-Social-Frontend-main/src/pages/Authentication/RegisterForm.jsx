@@ -39,7 +39,7 @@ function RegistrationForm() {
 
   const handleSubmit = (values, { setSubmitting }) => {
     // Handle form submission here
-    dispatch(registerUser(values))
+    dispatch(registerUser({data:values,navigate}))
     console.log(values);
     setSubmitting(false);
   };

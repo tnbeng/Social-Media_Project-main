@@ -16,7 +16,7 @@ public interface UserService {
 
 	public User findUserByEmail(String email) throws UserException;
 
-	public String followUser(Integer reqUserId, Integer followUserId) throws UserException;
+	public User followUser(Integer reqUserId, Integer followUserId) throws UserException;
 
 	public List<User> findUsersByUserIds(List<Integer> userIds);
 
