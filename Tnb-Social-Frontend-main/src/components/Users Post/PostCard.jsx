@@ -31,22 +31,23 @@ export default function PostCard({ item }) {
     dispatch(createComment({ postId: item?.id, data: { content } }));
   };
 
-  const handlePostLike=()=>{
-dispatch(likePost(item?.id))
+  const handlePostLike = () => {
+    dispatch(likePost(item?.id))
   }
 
-  const handleSavePost=()=>{
+  const handleSavePost = () => {
     dispatch(savePost(item?.id))
   }
 
   return (
     <div className="card" sx={{ w: "100%" }}>
       <CardHeader
-      className=""
+        className=""
         avatar={
-          <Avatar sx={{ bgcolor:"#212534",color:"rgb(88,199,250)" }} aria-label="recipe">
-            {item?.user?.firstName[0]}
-          </Avatar>
+          <Avatar sx={{ bgcolor: "#212534", color: "rgb(88,199,250)" }} aria-label="recipe" >
+            {(item?.user?.image )? (<img src={item?.user?.image} alt="" className="w-full h-full object-cover" /> ): (item?.user?.firstName[0] ) }
+            </Avatar>
+
         }
         action={
           <IconButton color="primary" aria-label="settings">
@@ -61,20 +62,30 @@ dispatch(likePost(item?.id))
           item?.user?.lastName.toLowerCase()
         }
       />
-     {item.image ? <CardMedia
+      {item.image ? <CardMedia
         component="img"
-        height="194"
+        sx={{
+          width: '100%',      // Make the video responsive to the container width
+          height: 'auto',     // Automatically adjust height to maintain aspect ratio
+          maxHeight: '80vh',  // Limit the height to 80% of the viewport height
+          objectFit: 'contain' // Ensure the video fits within the container without cropping
+        }}
         image={item?.image}
         alt={item.caption}
-      />:
-      <CardMedia
-        component="video"
-        height="194"
-        image={item?.video}
-        alt={item.caption}
-        controls
-      />
-    }
+      /> :
+        <CardMedia
+          component="video"
+          sx={{
+            width: '100%',      // Make the video responsive to the container width
+            height: 'auto',     // Automatically adjust height to maintain aspect ratio
+            maxHeight: '80vh',  // Limit the height to 80% of the viewport height
+            objectFit: 'contain' // Ensure the video fits within the container without cropping
+          }}
+          image={item?.video}
+          alt={item.caption}
+          controls
+        />
+      }
       <CardContent>
         <Typography variant="body2" color="primary">
           {item?.caption}
@@ -82,34 +93,34 @@ dispatch(likePost(item?.id))
       </CardContent>
       <CardActions className="flex justify-between" disableSpacing>
         <div>
-           <IconButton color="primary" onClick={handlePostLike} aria-label="add to favorites">
-          {item?.likedByRequser ? (
-            <FavoriteIcon  sx={{ color: pink[500] }} />
-          ) : (
-            <FavoriteBorderIcon />
-          )}
-        </IconButton>
-        <IconButton color="primary" aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <IconButton color="primary" onClick={() => setShowComment(!showComment)}>
-          <ChatBubbleOutlineIcon />
-        </IconButton>
+          <IconButton color="primary" onClick={handlePostLike} aria-label="add to favorites">
+            {item?.likedByRequser ? (
+              <FavoriteIcon sx={{ color: pink[500] }} />
+            ) : (
+              <FavoriteBorderIcon />
+            )}
+          </IconButton>
+          <IconButton color="primary" aria-label="share">
+            <ShareIcon />
+          </IconButton>
+          <IconButton color="primary" onClick={() => setShowComment(!showComment)}>
+            <ChatBubbleOutlineIcon />
+          </IconButton>
         </div>
         <div>
           <IconButton color="primary" onClick={handleSavePost}>
-            
-            {item?.savedByRequser? <BookmarkIcon/>: <BookmarkBorderIcon/>}
-            
+
+            {item?.savedByRequser ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+
           </IconButton>
         </div>
-       
+
       </CardActions>
 
       {showComment && (
         <section>
           <div className="flex items-center space-x-5 mx-3 my-5">
-            <Avatar sx={{bgcolor:"#212534",color:"rgb(88,199,250)"}}/>
+            <Avatar sx={{ bgcolor: "#212534", color: "rgb(88,199,250)" }} />
             <input
               onKeyPress={(e) => {
                 console.log("e", e.target.value);
@@ -129,7 +140,7 @@ dispatch(likePost(item?.id))
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-5">
                   <Avatar
-                    sx={{ height: "2rem", width: "2rem", fontSize: ".8rem",bgcolor:"#212534",color:"rgb(88,199,250)" }}
+                    sx={{ height: "2rem", width: "2rem", fontSize: ".8rem", bgcolor: "#212534", color: "rgb(88,199,250)" }}
                   >
                     {comment.user.firstName[0]}
                   </Avatar>

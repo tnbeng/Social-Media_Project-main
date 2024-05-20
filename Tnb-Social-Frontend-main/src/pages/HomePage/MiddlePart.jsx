@@ -44,7 +44,7 @@ const MiddlePart = () => {
       </div>
       <div className="card p-5 mt-5">
         <div className="flex justify-between">
-          <Avatar sx={{ bgcolor:"#212534",color:"rgb(88,199,250)" }} className="bg-[black]" />
+          <Avatar sx={{ bgcolor:"#212534",color:"rgb(88,199,250)" }} className="bg-[black]" src={auth.user.image}/>
           <input
             onClick={handleOpenCreatePostModal}
             placeholder="Create new post..."

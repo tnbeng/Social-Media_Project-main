@@ -22,7 +22,7 @@ public class ChatDtoMapper {
 		
 		ChatDto chatDto=new ChatDto();
 		chatDto.setId(chat.getId());
-		chatDto.setChat_image(chat.getChat_image());
+		chatDto.setChat_image(ChatUtil.chatImage(chat, user));
 		chatDto.setChat_name(ChatUtil.chatName(chat, user));
 		chatDto.setCreated_by(userDto);
 		chatDto.setIs_group(chat.getIs_group());

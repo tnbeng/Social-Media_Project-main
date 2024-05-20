@@ -18,7 +18,7 @@ const UserChatCard = ({ item }) => {
             bgcolor:"#191c29",color:"rgb(88,199,250)"
           }}
           aria-label="recipe"
-          src={item.image}
+          src={item.chat_image}
         />
          
        

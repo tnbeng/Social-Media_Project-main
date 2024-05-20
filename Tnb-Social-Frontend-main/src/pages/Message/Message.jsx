@@ -176,7 +176,8 @@ const onErr=(err)=>{
             <div>
               <div className="flex justify-between items-center bg-[#191c29] border-l  p-5">
                 <div className="flex items-center space-x-3">
-                  <Avatar src="https://cdn.pixabay.com/photo/2016/04/17/20/19/woman-1335487_640.jpg" />
+                  {/* <Avatar src="https://cdn.pixabay.com/photo/2016/04/17/20/19/woman-1335487_640.jpg" /> */}
+                  <Avatar src={currentChat.chat_image}/>
                   <p>{currentChat.chat_name}</p>
                 </div>
                 <div className="flex space-x-3">
