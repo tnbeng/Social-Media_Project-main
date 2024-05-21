@@ -17,7 +17,11 @@ const MiddlePart = () => {
   const dispatch = useDispatch();
   const { post, comment, auth } = useSelector((store) => store);
 
-  const handleOpenCreatePostModal = () => setOpenCreatePostModal(true);
+  const handleOpenCreatePostModal = () =>{
+    setOpenCreatePostModal(true);
+  } 
+
+  
   const handleCloseCreatPostModal = () => setOpenCreatePostModal(false);
 
   useEffect(() => {
