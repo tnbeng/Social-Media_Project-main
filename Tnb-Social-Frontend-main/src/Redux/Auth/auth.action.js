@@ -50,7 +50,7 @@ export const loginUser = (loginData) => async (dispatch) => {
     }
     dispatch({type:LOGIN_SUCCESS,payload:user});
   } catch (error) {
-    console.log("error ",error)
+    alert(error.response.data.message)
     dispatch({type:LOGIN_FAILURE,payload:error.message});
   }
 };
@@ -84,6 +84,7 @@ export const registerUser = (userData) => async (dispatch) => {
     }
     dispatch({type:REGISTER_SUCCESS,payload:user});
   } catch (error) {
+    alert(error.response.data.message)
     dispatch(
       {type:REGISTER_FAILURE,payload:error.message}
     );
@@ -169,6 +170,7 @@ export const FollowUserAction = (userId) => async (dispatch) => {
 };
 
 export const resetPasswordRequest = (email) => async (dispatch) => {
+  console.log("Emiail is =========",email)
   dispatch({type:REQUEST_RESET_PASSWORD_REQUEST});
   try {
     const {data} = await axios.post(`${API_BASE_URL}/reset-password/reset?email=${email}`,{});
@@ -177,7 +179,8 @@ export const resetPasswordRequest = (email) => async (dispatch) => {
    
     dispatch({type:REQUEST_RESET_PASSWORD_SUCCESS,payload:data});
   } catch (error) {
-    console.log("error ",error)
+    alert(error.response.data.message)
+    console.log("Reset password error ",error)
     dispatch({type:REQUEST_RESET_PASSWORD_FAILURE,payload:error.message});
   }
 };
